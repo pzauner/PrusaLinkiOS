@@ -144,13 +144,20 @@ class PrusaWebViewController: UIViewController {
     }
     
     func validateIPAddress(ipToValidate: String) -> Bool {
+        
+        // delete line below to have check in place again.
+        return true
+        
         var sin = sockaddr_in()
         if ipToValidate.withCString({ cstring in inet_pton(AF_INET, cstring, &sin.sin_addr) }) != 1 {
             // IPv4 peer.
             return false
         }
         
-        return ipToValidate.contains(/(^127\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^192\.168\.)/)
+        // original:
+        //return ipToValidate.contains(/(^127\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^192\.168\.)/)
+        // uncomment below for Tailscale IPv4 addresses (https://tailscale.com/kb/1304/ip-pool) as well: 
+        //return ipToValidate.contains(/(^127\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^192\.168\.)|(^100\.(6[4-9]|[7-9]\d|1[0-1]\d|12[0-7])\.)/)
     }
 }
 
